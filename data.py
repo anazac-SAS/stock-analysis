@@ -69,12 +69,16 @@ plt.xlabel("Predicted month")
 plt.ylabel("Direction")
 plt.title(f"EQQQ Next-Month Prediction | Accuracy: {accuracy:.2f}")
 plt.xticks(rotation=45)
-plt.legend()
+plt.legend(
+    loc="center left",
+    bbox_to_anchor=(0, 0.5),
+    ncol=2
+)
 plt.grid(True, alpha=0.3)
 plt.tight_layout()
 plt.show()
 
-# Format CSV
+# Download and format data
 monthly.to_csv("model_data_monthly.csv")
 export = monthly.copy()
 export.index.name = "Month"
