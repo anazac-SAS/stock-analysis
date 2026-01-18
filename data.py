@@ -29,6 +29,7 @@ monthly["Next_Close"] = monthly["Close"].shift(-1)
 monthly["Up_Down"] = (monthly["Next_Close"] > monthly["Close"]).astype(int)
 
 monthly = monthly.dropna()
+monthly.to_csv("model_data_monthly.csv")
 
 # Train/Test split
 features = ["Close", "Volume", "Return_1m", "MA_3", "MA_6", "Vol_3", "Return_3m"]
@@ -60,7 +61,7 @@ for date, actual, pred in zip(plot_dates, y_test.values, y_pred):
     plt.axvspan(date - pd.Timedelta(days=15), date + pd.Timedelta(days=15), color=color, alpha=0.1)
 
 # Actual
-plt.scatter(plot_dates, y_test.values, label="Actual", color="green", marker="o", s=100)
+plt.scatter(plot_dates[:-1], y_test.values[:-1], label="Actual", color="green", marker="o", s=100)
 
 # Predicted
 plt.scatter(plot_dates, y_pred, label="Predicted", color="red", marker="x", s=100, alpha=0.7)
