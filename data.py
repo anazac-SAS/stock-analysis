@@ -27,9 +27,7 @@ monthly["Return_3m"] = monthly["Close"].pct_change(3)
 # Target
 monthly["Next_Close"] = monthly["Close"].shift(-1)
 monthly["Up_Down"] = (monthly["Next_Close"] > monthly["Close"]).astype(int)
-
 monthly = monthly.dropna()
-monthly.to_csv("model_data_monthly.csv")
 
 # Train/Test split
 features = ["Close", "Volume", "Return_1m", "MA_3", "MA_6", "Vol_3", "Return_3m"]
@@ -43,16 +41,13 @@ X_train, X_test, y_train, y_test = train_test_split(
 # Model with class weighting
 model = RandomForestClassifier(n_estimators=200, random_state=42, class_weight="balanced")
 model.fit(X_train, y_train)
-
 y_pred = model.predict(X_test)
-
 accuracy = accuracy_score(y_test, y_pred)
 print("Accuracy:", accuracy)
 print(classification_report(y_test, y_pred))
 
 # Visualization
 plot_dates = monthly.index[-len(y_test):] + pd.offsets.MonthEnd(1)
-
 plt.figure(figsize=(14, 6))
 
 # Background: correct/wrong prediction
@@ -78,3 +73,18 @@ plt.legend()
 plt.grid(True, alpha=0.3)
 plt.tight_layout()
 plt.show()
+
+# Format CSV
+monthly.to_csv("model_data_monthly.csv")
+export = monthly.copy()
+export.index.name = "Month"
+export = export.reset_index()
+export = export.round({
+    "Close": 2,
+    "Volume": 0,
+    "Return_1m": 4,
+    "Return_3m": 4,
+    "MA_3": 2,
+    "MA_6": 2
+})
+export.to_csv("formatted_model_data_monthly.csv", index=False)
