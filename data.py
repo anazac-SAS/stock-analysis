@@ -13,7 +13,7 @@ data = data[["Close", "Volume"]]
 
 # Monthly aggregation
 monthly = data.resample("M").agg({
-    "Close": "last",
+    "Close": "median",
     "Volume": "mean"
 })
 
