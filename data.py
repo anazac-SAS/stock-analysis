@@ -4,6 +4,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import classification_report, accuracy_score
 import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
 
 # Download data
 data = yf.download("EQQQ.L", start="2015-01-01")
@@ -63,6 +64,9 @@ plt.scatter(plot_dates, y_test.values, label="Actual", color="green", marker="o"
 
 # Predicted
 plt.scatter(plot_dates, y_pred, label="Predicted", color="red", marker="x", s=100, alpha=0.7)
+
+plt.gca().xaxis.set_major_locator(mdates.MonthLocator())
+plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m'))
 
 plt.yticks([0, 1], ["Down", "Up"])
 plt.xlabel("Predicted month")
