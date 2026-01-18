@@ -55,14 +55,14 @@ plt.figure(figsize=(14, 6))
 
 # Background: correct/wrong prediction
 for date, actual, pred in zip(plot_dates, y_test.values, y_pred):
-    color = 'green' if actual == pred else 'red'
+    color = 'beige' if actual == pred else 'lightblue'
     plt.axvspan(date - pd.Timedelta(days=15), date + pd.Timedelta(days=15), color=color, alpha=0.1)
 
 # Actual
-plt.scatter(plot_dates, y_test.values, label="Actual", color="blue", marker="o", s=100)
+plt.scatter(plot_dates, y_test.values, label="Actual", color="green", marker="o", s=100)
 
 # Predicted
-plt.scatter(plot_dates, y_pred, label="Predicted", color="orange", marker="x", s=100, alpha=0.7)
+plt.scatter(plot_dates, y_pred, label="Predicted", color="red", marker="x", s=100, alpha=0.7)
 
 plt.yticks([0, 1], ["Down", "Up"])
 plt.xlabel("Predicted month")
